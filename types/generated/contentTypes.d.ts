@@ -1001,6 +1001,37 @@ export interface AdminTransferTokenPermission
   };
 }
 
+export interface ApiProductProduct extends Schema.CollectionType {
+  collectionName: 'products';
+  info: {
+    singularName: 'product';
+    pluralName: 'products';
+    displayName: 'Product';
+    description: 'Product collectie';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Schema.Attribute.String & Schema.Attribute.Required & Schema.Attribute.Unique;
+    description: Schema.Attribute.RichText;
+    price: Schema.Attribute.Decimal & Schema.Attribute.Required;
+    sku: Schema.Attribute.String & Schema.Attribute.Unique;
+    stock: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    images: Schema.Attribute.Media;
+    categories: Schema.Attribute.Relation<
+      'api::product.product',
+      'manyToMany',
+      'api::category.category'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'api::product.product', 'oneToOne', 'admin::user'>;
+    updatedBy: Schema.Attribute.Relation<'api::product.product', 'oneToOne', 'admin::user'>;
+  };
+}
+
 declare module '@strapi/strapi' {
   export module Public {
     export interface ContentTypeSchemas {
@@ -1026,6 +1057,7 @@ declare module '@strapi/strapi' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
+      'api::product.product': ApiProductProduct;
     }
   }
 }

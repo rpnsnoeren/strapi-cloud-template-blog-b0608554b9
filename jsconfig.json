@@ -1,8 +1,18 @@
 {
   "compilerOptions": {
-    "moduleResolution": "nodenext",
-    "target": "ES2021",
-    "checkJs": true,
-    "allowJs": true
-  }
+    "moduleResolution": "node",
+    "target": "es2020",
+    "lib": ["es2020"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "./src/**/*",
+    "./types/**/*",
+    "./*.js",
+    "./*.ts",
+    "./config/**/*"
+  ]
 }
